@@ -677,10 +677,6 @@ export default class VideoPlayer extends Component {
     this.clearControlTimeout();
   }
 
-  componentDidUpdate() {
-    console.log('RE-RENDERING');
-  }
-
   /**
    * Get our seekbar responder going
    */
