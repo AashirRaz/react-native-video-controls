@@ -677,6 +677,10 @@ export default class VideoPlayer extends Component {
     this.clearControlTimeout();
   }
 
+  componentDidUpdate() {
+    console.log('RE-RENDERING');
+  }
+
   /**
    * Get our seekbar responder going
    */
@@ -941,16 +945,7 @@ export default class VideoPlayer extends Component {
     return (
       !this.state.loading &&
       this.state.showControls && (
-        <View
-          style={{
-            position: 'absolute',
-            top: '40%',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'row',
-            zIndex: 9999,
-            alignSelf: 'center',
-          }}>
+        <View style={styles.playPause.container}>
           <TouchableOpacity
             onPress={() => {
               this.events.onPrevVideo && this.events.onPrevVideo();
@@ -958,24 +953,21 @@ export default class VideoPlayer extends Component {
             }}
             disabled={!this.events.onPrevVideo}
             activeOpacity={0.3}
-            style={{
-              zIndex: 999,
-              width: 50,
-              marginRight: 40,
-              height: 50,
-              borderRadius: 50 / 2,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: 'rgba(0,0,0,0.5)',
-              opacity: this.events.onPrevVideo ? 1 : 0.5,
-            }}>
+            style={[
+              styles.playPause.iconContainer,
+              styles.playPause.mr40,
+              {
+                opacity: this.events.onPrevVideo ? 1 : 0.5,
+              },
+            ]}>
             <Image
               source={require('./assets/img/PreviousVideo.png')}
-              style={{
-                width: 18,
-                height: 18,
-                tintColor: this.events.onPrevVideo ? '#FFF' : 'lightgrey',
-              }}
+              style={[
+                styles.playPause.nextPrevIcon,
+                {
+                  tintColor: this.events.onPrevVideo ? '#FFF' : 'lightgrey',
+                },
+              ]}
               resizeMode="contain"
             />
           </TouchableOpacity>
@@ -985,15 +977,7 @@ export default class VideoPlayer extends Component {
               this.methods.togglePlayPause();
             }}
             activeOpacity={0.5}
-            style={{
-              zIndex: 999,
-              width: 50,
-              height: 50,
-              borderRadius: 50 / 2,
-              backgroundColor: 'rgba(0,0,0,0.5)',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
+            style={styles.playPause.iconContainer}>
             <Image
               source={
                 this.state.paused === true
@@ -1011,24 +995,21 @@ export default class VideoPlayer extends Component {
             }}
             disabled={!this.events.onNextVideo}
             activeOpacity={0.3}
-            style={{
-              zIndex: 999,
-              width: 50,
-              marginLeft: 30,
-              height: 50,
-              borderRadius: 50 / 2,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: 'rgba(0,0,0,0.5)',
-              opacity: this.events.onNextVideo ? 1 : 0.5,
-            }}>
+            style={[
+              styles.playPause.iconContainer,
+              styles.playPause.ml40,
+              {
+                opacity: this.events.onNextVideo ? 1 : 0.5,
+              },
+            ]}>
             <Image
               source={require('./assets/img/NextVideo.png')}
-              style={{
-                width: 18,
-                height: 18,
-                tintColor: this.events.onNextVideo ? '#FFF' : 'lightgrey',
-              }}
+              style={[
+                styles.playPause.nextPrevIcon,
+                {
+                  tintColor: this.events.onNextVideo ? '#FFF' : 'lightgrey',
+                },
+              ]}
               resizeMode="contain"
             />
           </TouchableOpacity>
@@ -1295,6 +1276,36 @@ const styles = {
       left: 8,
       height: 12,
       width: 12,
+    },
+  }),
+  playPause: StyleSheet.create({
+    container: {
+      position: 'absolute',
+      top: '40%',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'row',
+      zIndex: 9999,
+      alignSelf: 'center',
+    },
+    iconContainer: {
+      zIndex: 999,
+      width: 50,
+      height: 50,
+      borderRadius: 50 / 2,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(0,0,0,0.5)',
+    },
+    ml40: {
+      marginLeft: 40,
+    },
+    mr40: {
+      marginRight: 40,
+    },
+    nextPrevIcon: {
+      width: 18,
+      height: 18,
     },
   }),
 };
