@@ -51,7 +51,7 @@ export default class VideoPlayer extends Component {
 
       isFullscreen:
         this.props.isFullScreen || this.props.resizeMode === 'cover' || false,
-      showTimeRemaining: true,
+      showTimeRemaining: false,
       volumeTrackWidth: 0,
       volumeFillWidth: 0,
       seekerFillWidth: 0,
@@ -643,6 +643,14 @@ export default class VideoPlayer extends Component {
     //     });
     // }
 
+    if (this.events.onNextVideo !== nextProps.onNextVideo) {
+      this.events.onNextVideo = nextProps.onNextVideo;
+    }
+
+    if (this.events.onPrevVideo !== nextProps.onPrevVideo) {
+      this.events.onPrevVideo = nextProps.onPrevVideo;
+    }
+
     if (this.styles.videoStyle !== nextProps.videoStyle) {
       this.styles.videoStyle = nextProps.videoStyle;
     }
@@ -946,23 +954,26 @@ export default class VideoPlayer extends Component {
           <TouchableOpacity
             onPress={() => {
               this.events.onPrevVideo && this.events.onPrevVideo();
+              this.setState({paused: false});
             }}
-            activeOpacity={0.5}
+            disabled={!this.events.onPrevVideo}
+            activeOpacity={0.3}
             style={{
               zIndex: 999,
               width: 50,
-              marginRight: 30,
+              marginRight: 40,
               height: 50,
               borderRadius: 50 / 2,
               justifyContent: 'center',
               alignItems: 'center',
               backgroundColor: 'rgba(0,0,0,0.5)',
+              opacity: this.events.onPrevVideo ? 1 : 0.5,
             }}>
             <Image
               source={require('./assets/img/PreviousVideo.png')}
               style={{
-                width: 28,
-                height: 28,
+                width: 18,
+                height: 18,
                 tintColor: this.events.onPrevVideo ? '#FFF' : 'lightgrey',
               }}
               resizeMode="contain"
@@ -973,7 +984,7 @@ export default class VideoPlayer extends Component {
               this.resetControlTimeout();
               this.methods.togglePlayPause();
             }}
-            activeOpacity={0.8}
+            activeOpacity={0.5}
             style={{
               zIndex: 999,
               width: 50,
@@ -989,15 +1000,17 @@ export default class VideoPlayer extends Component {
                   ? require('./assets/img/play.png')
                   : require('./assets/img/pause.png')
               }
-              style={{width: 16, height: 19}}
+              style={{width: 18, height: 21}}
               resizeMode="contain"
             />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
               this.events.onNextVideo && this.events.onNextVideo();
+              this.setState({paused: false});
             }}
-            activeOpacity={0.5}
+            disabled={!this.events.onNextVideo}
+            activeOpacity={0.3}
             style={{
               zIndex: 999,
               width: 50,
@@ -1007,12 +1020,13 @@ export default class VideoPlayer extends Component {
               justifyContent: 'center',
               alignItems: 'center',
               backgroundColor: 'rgba(0,0,0,0.5)',
+              opacity: this.events.onNextVideo ? 1 : 0.5,
             }}>
             <Image
               source={require('./assets/img/NextVideo.png')}
               style={{
-                width: 28,
-                height: 28,
+                width: 18,
+                height: 18,
                 tintColor: this.events.onNextVideo ? '#FFF' : 'lightgrey',
               }}
               resizeMode="contain"

@@ -48,9 +48,9 @@ interface VideoPlayerProperties extends VideoProperties {
   /** Fired when the video is complete */
   onEnd?: () => void;
   /** Fired when the next video Button */
-  onNextVideo?: () => void;
+  onNextVideo?: Function | null | undefined;
   /** Fired when the prev video Button */
-  onPrevVideo?: () => void;
+  onPrevVideo?: Function | null | undefined;
   /** Hide the fullscreen button */
   disableFullscreen?: boolean;
   /** Hide the play/pause toggle */
