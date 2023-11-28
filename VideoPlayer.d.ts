@@ -21,6 +21,8 @@ interface VideoPlayerProperties extends VideoProperties {
   showOnStart?: boolean;
   /** React Native StyleSheet object that is appended to the <Video> component */
   videoStyle?: ViewStyle;
+  /** React Native StyleSheet object that is appended to the <Video> component*/
+  playPauseStyle?: ViewStyle;
   /** When using the default React Native navigator and do not override the onBack function, you'll need to pass the navigator to the VideoPlayer for it to function */
   navigator?: DuckNavigator;
   /** Fill/handle colour of the seekbar */
@@ -51,6 +53,8 @@ interface VideoPlayerProperties extends VideoProperties {
   onNextVideo?: Function | null | undefined;
   /** Fired when the prev video Button */
   onPrevVideo?: Function | null | undefined;
+  /** Fired when the video is seeking */
+  showPlayPause?: boolean;
   /** Hide the fullscreen button */
   disableFullscreen?: boolean;
   /** Hide the play/pause toggle */

@@ -49,6 +49,7 @@ export default class VideoPlayer extends Component {
       rate: this.props.rate,
       // Controls
 
+      showPlayPause: this.props.showPlayPause || true,
       isFullscreen:
         this.props.isFullScreen || this.props.resizeMode === 'cover' || false,
       showTimeRemaining: false,
@@ -155,6 +156,7 @@ export default class VideoPlayer extends Component {
     this.styles = {
       videoStyle: this.props.videoStyle || {},
       containerStyle: this.props.style || {},
+      playPauseStyle: this.props.playPauseStyle || {},
     };
   }
 
@@ -658,6 +660,10 @@ export default class VideoPlayer extends Component {
     if (this.styles.containerStyle !== nextProps.style) {
       this.styles.containerStyle = nextProps.style;
     }
+
+    if (this.styles.playPauseStyle !== nextProps.playPauseStyle) {
+      this.styles.playPauseStyle = nextProps.playPauseStyle;
+    }
   }
 
   /**
@@ -941,32 +947,34 @@ export default class VideoPlayer extends Component {
     return (
       !this.state.loading &&
       this.state.showControls && (
-        <View style={styles.playPause.container}>
-          <TouchableOpacity
-            onPress={() => {
-              this.events.onPrevVideo && this.events.onPrevVideo();
-              this.setState({paused: false});
-            }}
-            disabled={!this.events.onPrevVideo}
-            activeOpacity={0.3}
-            style={[
-              styles.playPause.iconContainer,
-              styles.playPause.mr40,
-              {
-                opacity: this.events.onPrevVideo ? 1 : 0.5,
-              },
-            ]}>
-            <Image
-              source={require('./assets/img/PreviousVideo.png')}
+        <View style={[styles.playPause.container, this.styles.playPauseStyle]}>
+          {this.state.showPlayPause && (
+            <TouchableOpacity
+              onPress={() => {
+                this.events.onPrevVideo && this.events.onPrevVideo();
+                this.setState({paused: false});
+              }}
+              disabled={!this.events.onPrevVideo}
+              activeOpacity={0.3}
               style={[
-                styles.playPause.nextPrevIcon,
+                styles.playPause.iconContainer,
+                styles.playPause.mr40,
                 {
-                  tintColor: this.events.onPrevVideo ? '#FFF' : 'lightgrey',
+                  opacity: this.events.onPrevVideo ? 1 : 0.5,
                 },
-              ]}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
+              ]}>
+              <Image
+                source={require('./assets/img/PreviousVideo.png')}
+                style={[
+                  styles.playPause.nextPrevIcon,
+                  {
+                    tintColor: this.events.onPrevVideo ? '#FFF' : 'lightgrey',
+                  },
+                ]}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+          )}
           <TouchableOpacity
             onPress={() => {
               this.resetControlTimeout();
@@ -984,31 +992,33 @@ export default class VideoPlayer extends Component {
               resizeMode="contain"
             />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              this.events.onNextVideo && this.events.onNextVideo();
-              this.setState({paused: false});
-            }}
-            disabled={!this.events.onNextVideo}
-            activeOpacity={0.3}
-            style={[
-              styles.playPause.iconContainer,
-              styles.playPause.ml40,
-              {
-                opacity: this.events.onNextVideo ? 1 : 0.5,
-              },
-            ]}>
-            <Image
-              source={require('./assets/img/NextVideo.png')}
+          {this.state.showPlayPause && (
+            <TouchableOpacity
+              onPress={() => {
+                this.events.onNextVideo && this.events.onNextVideo();
+                this.setState({paused: false});
+              }}
+              disabled={!this.events.onNextVideo}
+              activeOpacity={0.3}
               style={[
-                styles.playPause.nextPrevIcon,
+                styles.playPause.iconContainer,
+                styles.playPause.ml40,
                 {
-                  tintColor: this.events.onNextVideo ? '#FFF' : 'lightgrey',
+                  opacity: this.events.onNextVideo ? 1 : 0.5,
                 },
-              ]}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
+              ]}>
+              <Image
+                source={require('./assets/img/NextVideo.png')}
+                style={[
+                  styles.playPause.nextPrevIcon,
+                  {
+                    tintColor: this.events.onNextVideo ? '#FFF' : 'lightgrey',
+                  },
+                ]}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+          )}
         </View>
       )
     );
