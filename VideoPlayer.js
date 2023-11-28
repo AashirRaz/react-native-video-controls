@@ -31,6 +31,7 @@ export default class VideoPlayer extends Component {
     muted: false,
     volume: 1,
     rate: 1,
+    showPlayPause: true,
   };
 
   constructor(props) {
@@ -49,7 +50,7 @@ export default class VideoPlayer extends Component {
       rate: this.props.rate,
       // Controls
 
-      showPlayPause: this.props.showPlayPause || true,
+      showPlayPause: this.props.showPlayPause,
       isFullscreen:
         this.props.isFullScreen || this.props.resizeMode === 'cover' || false,
       showTimeRemaining: false,
